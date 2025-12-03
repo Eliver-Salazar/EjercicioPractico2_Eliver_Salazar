@@ -1,16 +1,12 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
 <html xmlns:th="http://www.thymeleaf.org"
-      th:with="titulo='Consultas avanzadas',contenido='this :: contenido'"
-      th:replace="~{layout :: {titulo=${titulo},contenido=${contenido}}}">
+      th:replace="~{layout :: layout('Consultas avanzadas', ~{::contenido})}">
 
 <section th:fragment="contenido">
+
     <h2>Consultas avanzadas</h2>
 
-    <!-- Por rol -->
+    <!-- BUSCAR POR ROL -->
     <h4 class="mt-4">Buscar usuarios por rol</h4>
     <form class="row g-3 mb-3" method="get" th:action="@{/admin/consultas}">
         <div class="col-md-4">
@@ -44,7 +40,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         </tbody>
     </table>
 
-    <!-- Por rango de fechas -->
+    <!-- BUSCAR POR RANGO DE FECHAS -->
     <h4 class="mt-5">Buscar usuarios por rango de fechas (fecha_creacion)</h4>
     <form class="row g-3 mb-3" method="get" th:action="@{/admin/consultas}">
         <div class="col-md-4">
@@ -79,7 +75,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         </tbody>
     </table>
 
-    <!-- Por texto (correo o nombre) -->
+    <!-- BUSCAR POR TEXTO -->
     <h4 class="mt-5">Buscar usuarios por texto (correo o nombre)</h4>
     <form class="row g-3 mb-3" method="get" th:action="@{/admin/consultas}">
         <div class="col-md-4">
@@ -110,4 +106,3 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
 </section>
 
 </html>
-

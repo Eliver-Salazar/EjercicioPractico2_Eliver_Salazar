@@ -1,11 +1,7 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
 <html xmlns:th="http://www.thymeleaf.org"
-      th:with="titulo='Reportes',contenido='this :: contenido'"
-      th:replace="~{layout :: {titulo=${titulo},contenido=${contenido}}}">
+      th:with="titulo='Reportes', contenido=~{::contenido}"
+      th:replace="~{layout :: layout(titulo=${titulo}, contenido=${contenido})}">
 
 <section th:fragment="contenido">
     <h2>Reportes de usuarios</h2>
@@ -52,4 +48,3 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
 </section>
 
 </html>
-

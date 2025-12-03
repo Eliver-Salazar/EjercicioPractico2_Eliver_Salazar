@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      th:with="titulo='Formulario usuario',contenido='this :: contenido'"
-      th:replace="~{layout :: {titulo=${titulo},contenido=${contenido}}}">
+      th:with="titulo='Formulario usuario', contenido=~{::contenido}"
+      th:replace="~{layout :: layout(titulo=${titulo}, contenido=${contenido})}">
 
 <section th:fragment="contenido">
 
@@ -23,14 +23,12 @@
             <div class="text-danger" th:errors="*{apellidos}"></div>
         </div>
 
-        
         <div class="mb-3">
             <label class="form-label">Correo institucional</label>
             <input type="email" class="form-control" th:field="*{email}">
             <div class="text-danger" th:errors="*{email}"></div>
         </div>
 
-        
         <div class="mb-3">
             <label class="form-label">Contraseña</label>
             <input type="password" class="form-control" th:field="*{password}">

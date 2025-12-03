@@ -54,7 +54,7 @@ public class SeguridadConfig {
                 .loginPage("/login")
                 .usernameParameter("email")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/consultas", true)
+                .defaultSuccessUrl("/admin/consultas", true)
                 .failureUrl("/login?error=true")
                 )
                 .logout(logout -> logout

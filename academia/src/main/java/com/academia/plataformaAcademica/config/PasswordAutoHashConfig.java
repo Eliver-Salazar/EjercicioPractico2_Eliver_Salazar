@@ -25,7 +25,7 @@ public class PasswordAutoHashConfig {
                     continue;
                 }
 
-                // Si la contraseña NO está en formato BCrypt → la encriptamos
+                // Si la contraseña NO está en formato BCrypt la encriptamos
                 if (!pwd.startsWith("$2a$") &&
                     !pwd.startsWith("$2b$") &&
                     !pwd.startsWith("$2y$")) {
