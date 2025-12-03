@@ -1,8 +1,4 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
 <html xmlns:th="http://www.thymeleaf.org"
       th:with="titulo='Formulario usuario',contenido='this :: contenido'"
       th:replace="~{layout :: {titulo=${titulo},contenido=${contenido}}}">
@@ -27,16 +23,18 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             <div class="text-danger" th:errors="*{apellidos}"></div>
         </div>
 
+        
         <div class="mb-3">
             <label class="form-label">Correo institucional</label>
-            <input type="email" class="form-control" th:field="*{correoInstitucional}">
-            <div class="text-danger" th:errors="*{correoInstitucional}"></div>
+            <input type="email" class="form-control" th:field="*{email}">
+            <div class="text-danger" th:errors="*{email}"></div>
         </div>
 
+        
         <div class="mb-3">
             <label class="form-label">Contraseña</label>
-            <input type="text" class="form-control" th:field="*{contrasenna}">
-            <div class="text-danger" th:errors="*{contrasenna}"></div>
+            <input type="password" class="form-control" th:field="*{password}">
+            <div class="text-danger" th:errors="*{password}"></div>
         </div>
 
         <div class="mb-3">
@@ -67,4 +65,3 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
 </section>
 
 </html>
-

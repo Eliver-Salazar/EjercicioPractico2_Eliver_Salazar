@@ -15,15 +15,26 @@ public class PasswordAutoHashConfig {
             PasswordEncoder passwordEncoder) {
 
         return args -> {
-            for (UsuarioPlataforma u : usuarioRepository.findAll()) {
-                String pwd = u.getContrasenna();
-                if (pwd == null || pwd.isBlank()) continue;
 
-                // Si NO es BCrypt, lo actualizamos
-                if (!pwd.startsWith("$2a$") && !pwd.startsWith("$2b$") && !pwd.startsWith("$2y$")) {
+            for (UsuarioPlataforma u : usuarioRepository.findAll()) {
+
+                String pwd = u.getPassword();
+
+                // Si no tiene contraseña, lo omitimos
+                if (pwd == null || pwd.isBlank()) {
+                    continue;
+                }
+
+                // Si la contraseña NO está en formato BCrypt → la encriptamos
+                if (!pwd.startsWith("$2a$") &&
+                    !pwd.startsWith("$2b$") &&
+                    !pwd.startsWith("$2y$")) {
+
                     String hashed = passwordEncoder.encode(pwd);
-                    u.setContrasenna(hashed);
+                    u.setPassword(hashed);
                     usuarioRepository.save(u);
+
+                    System.out.println("Contraseña autocifrada para usuario: " + u.getEmail());
                 }
             }
         };

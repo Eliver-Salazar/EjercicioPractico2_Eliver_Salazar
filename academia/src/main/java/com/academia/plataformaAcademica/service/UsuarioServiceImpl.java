@@ -38,12 +38,17 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Transactional
     public UsuarioPlataforma guardar(UsuarioPlataforma usuario) {
 
-        String pwd = usuario.getContrasenna();
+        String pwd = usuario.getPassword();
 
+        // Si viene una contraseña NUEVA o EDITADA
         if (pwd != null && !pwd.isBlank()) {
-            // Si la contraseña NO parece un hash BCrypt, la encriptamos
-            if (!pwd.startsWith("$2a$") && !pwd.startsWith("$2b$") && !pwd.startsWith("$2y$")) {
-                usuario.setContrasenna(passwordEncoder.encode(pwd));
+
+            // Si NO está en formato BCrypt, la encriptamos
+            if (!pwd.startsWith("$2a$") &&
+                !pwd.startsWith("$2b$") &&
+                !pwd.startsWith("$2y$")) {
+
+                usuario.setPassword(passwordEncoder.encode(pwd));
             }
         }
 
@@ -58,8 +63,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     @Transactional(readOnly = true)
-    public UsuarioPlataforma buscarPorCorreo(String correo) {
-        return usuarioRepository.findByCorreoInstitucional(correo);
+    public UsuarioPlataforma buscarPorCorreo(String email) {
+        return usuarioRepository.findByEmail(email);
     }
 
     @Override
@@ -77,9 +82,8 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     @Transactional(readOnly = true)
     public List<UsuarioPlataforma> buscarPorTexto(String texto) {
-        // Usamos el método CORRECTO del repositorio
         return usuarioRepository
-                .findByCorreoInstitucionalContainingIgnoreCaseOrNombreContainingIgnoreCase(texto, texto);
+                .findByEmailContainingIgnoreCaseOrNombresContainingIgnoreCase(texto, texto);
     }
 
     @Override
@@ -97,7 +101,6 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     @Transactional(readOnly = true)
     public List<UsuarioPlataforma> listarOrdenadosPorFechaDesc() {
-        // Este método no existía → lo creamos en el repositorio
         return usuarioRepository.findAllByOrderByFechaCreacionDesc();
     }
 }

@@ -13,17 +13,21 @@ public class UsuarioPlataforma {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 150)
-    private String nombre;
+    // Mapeamos la propiedad "nombres" a la columna "nombre"
+    @Column(name = "nombre", nullable = false, length = 150)
+    private String nombres;
 
-    @Column(nullable = false, length = 150)
-    private String apellido;
+    // Mapeamos la propiedad "apellidos" a la columna "apellido"
+    @Column(name = "apellido", nullable = false, length = 150)
+    private String apellidos;
 
+    // email → columna email (esto ya lo tenías bien)
     @Column(name = "email", nullable = false, unique = true, length = 200)
-    private String correoInstitucional;
+    private String email;
 
+    // password → columna password (también bien)
     @Column(name = "password", nullable = false, length = 255)
-    private String contrasenna;
+    private String password;
 
     @Column(nullable = false)
     private Boolean activo = true;

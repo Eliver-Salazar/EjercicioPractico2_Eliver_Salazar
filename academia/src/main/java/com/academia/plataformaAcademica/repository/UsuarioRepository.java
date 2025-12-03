@@ -9,25 +9,25 @@ import java.util.List;
 
 public interface UsuarioRepository extends JpaRepository<UsuarioPlataforma, Long> {
 
-    // 1) Buscar usuarios por rol
+    // Buscar usuarios por rol
     List<UsuarioPlataforma> findByRolAsignado(RolSistema rol);
 
-    // 2) Buscar usuarios creados en un rango de fechas
+    // Buscar usuarios por fechas
     List<UsuarioPlataforma> findByFechaCreacionBetween(LocalDateTime desde, LocalDateTime hasta);
 
-    // 3) Buscar por coincidencia parcial en correo o nombre (CORRECTO)
-    List<UsuarioPlataforma> findByCorreoInstitucionalContainingIgnoreCaseOrNombreContainingIgnoreCase(
-            String fragmentoCorreo,
+    // Busqueda parcial por email o nombres
+    List<UsuarioPlataforma> findByEmailContainingIgnoreCaseOrNombresContainingIgnoreCase(
+            String fragmentoEmail,
             String fragmentoNombre
     );
 
-    // 4) Contar usuarios activos vs inactivos
+    // Contadores
     long countByActivoTrue();
     long countByActivoFalse();
 
-    // 5) Buscar usuario exacto por correo (para login)
-    UsuarioPlataforma findByCorreoInstitucional(String correo);
-    
-    List<UsuarioPlataforma> findAllByOrderByFechaCreacionDesc();
+    // Buscar usuario EXACTO por email (LOGIN)
+    UsuarioPlataforma findByEmail(String email);
 
+    // Ordenados por fecha
+    List<UsuarioPlataforma> findAllByOrderByFechaCreacionDesc();
 }

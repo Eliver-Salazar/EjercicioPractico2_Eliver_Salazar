@@ -1,13 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.academia.plataformaAcademica.controllers;
-
-/**
- *
- * @author Eliver Salazar Campo
- */
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,44 +8,54 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class AuthController {
 
+    // Redirige a login si entran a la raíz
     @GetMapping("/")
     public String raiz() {
         return "redirect:/login";
     }
 
+    // Página de login (GET)
     @GetMapping("/login")
     public String login() {
         return "auth/login";
     }
 
+    
     @GetMapping("/postLogin")
     public String postLogin(Authentication auth) {
+
         if (auth == null) {
             return "redirect:/login";
         }
 
-        boolean esAdmin = tieneRol(auth, "ROLE_ADMIN");
-        boolean esProfesor = tieneRol(auth, "ROLE_PROFESOR");
-        boolean esEstudiante = tieneRol(auth, "ROLE_ESTUDIANTE");
+        String rolUsuario = obtenerRol(auth);
 
-        if (esAdmin) {
-            return "redirect:/admin/usuarios";
-        } else if (esProfesor) {
-            return "redirect:/profesor/reportes";
-        } else if (esEstudiante) {
-            return "redirect:/estudiante/perfil";
+        if (rolUsuario == null) {
+            return "redirect:/login?errorRol";
         }
 
-        return "redirect:/login";
+        switch (rolUsuario) {
+            case "ROLE_ADMIN":
+                return "redirect:/admin/usuarios";
+
+            case "ROLE_PROFESOR":
+                return "redirect:/profesor/reportes";
+
+            case "ROLE_ESTUDIANTE":
+                return "redirect:/estudiante/perfil";
+
+            default:
+                return "redirect:/login?errorRol";
+        }
     }
 
-    private boolean tieneRol(Authentication auth, String rolBuscado) {
-        for (GrantedAuthority authority : auth.getAuthorities()) {
-            if (rolBuscado.equals(authority.getAuthority())) {
-                return true;
-            }
+    // Obtiene el PRIMER rol del usuario autenticado
+    private String obtenerRol(Authentication auth) {
+        if (auth.getAuthorities() == null || auth.getAuthorities().isEmpty()) {
+            return null;
         }
-        return false;
+
+        GrantedAuthority authority = auth.getAuthorities().iterator().next();
+        return authority.getAuthority(); // Ej: ROLE_ADMIN
     }
 }
-

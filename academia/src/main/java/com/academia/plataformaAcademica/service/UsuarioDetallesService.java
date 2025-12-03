@@ -20,20 +20,26 @@ public class UsuarioDetallesService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UsuarioPlataforma usuario = usuarioRepository.findByCorreoInstitucional(username);
+        // Aquí "username" es el email que el usuario digita en el login
+        UsuarioPlataforma usuario = usuarioRepository.findByEmail(username);
 
         if (usuario == null) {
             throw new UsernameNotFoundException("Usuario no encontrado: " + username);
         }
 
-        String rol = usuario.getRolAsignado().getNombreRol(); // ADMIN, PROFESOR, ESTUDIANTE
+        // Ej: ADMIN, PROFESOR, ESTUDIANTE (sin el prefijo ROLE_)
+        String rol = usuario.getRolAsignado().getNombreRol();
 
         return User
                 .builder()
-                .username(usuario.getCorreoInstitucional())
-                .password(usuario.getContrasenna())   // ← YA VIENE HASHED
-                .disabled(!usuario.getActivo())
-                .roles(rol)   // crea ROLE_ADMIN etc.
+                // username será el email del usuario
+                .username(usuario.getEmail())
+                // password YA debe venir encriptado con BCrypt desde UsuarioServiceImpl
+                .password(usuario.getPassword())
+                // Si activo = false, entonces la cuenta queda deshabilitada
+                .disabled(!Boolean.TRUE.equals(usuario.getActivo()))
+                // Spring le agrega automáticamente el prefijo ROLE_ → ROLE_ADMIN, etc.
+                .roles(rol)
                 .build();
     }
 }
