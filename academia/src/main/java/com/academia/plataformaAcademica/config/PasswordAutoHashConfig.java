@@ -1,0 +1,31 @@
+package com.academia.plataformaAcademica.config;
+
+import com.academia.plataformaAcademica.domain.UsuarioPlataforma;
+import com.academia.plataformaAcademica.repository.UsuarioRepository;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+@Configuration
+public class PasswordAutoHashConfig {
+
+    @Bean
+    public org.springframework.boot.CommandLineRunner autoHashPasswords(
+            UsuarioRepository usuarioRepository,
+            PasswordEncoder passwordEncoder) {
+
+        return args -> {
+            for (UsuarioPlataforma u : usuarioRepository.findAll()) {
+                String pwd = u.getContrasenna();
+                if (pwd == null || pwd.isBlank()) continue;
+
+                // Si NO es BCrypt, lo actualizamos
+                if (!pwd.startsWith("$2a$") && !pwd.startsWith("$2b$") && !pwd.startsWith("$2y$")) {
+                    String hashed = passwordEncoder.encode(pwd);
+                    u.setContrasenna(hashed);
+                    usuarioRepository.save(u);
+                }
+            }
+        };
+    }
+}

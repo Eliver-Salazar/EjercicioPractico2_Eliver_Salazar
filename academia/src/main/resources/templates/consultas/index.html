@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org"
+      th:with="titulo='Consultas avanzadas',contenido='this :: contenido'"
+      th:replace="~{layout :: {titulo=${titulo},contenido=${contenido}}}">
+
+<section th:fragment="contenido">
+    <h2>Consultas avanzadas</h2>
+
+    <!-- Por rol -->
+    <h4 class="mt-4">Buscar usuarios por rol</h4>
+    <form class="row g-3 mb-3" method="get" th:action="@{/admin/consultas}">
+        <div class="col-md-4">
+            <select class="form-select" name="rolId">
+                <option value="">-- Seleccione rol --</option>
+                <option th:each="r : ${roles}"
+                        th:value="${r.id}"
+                        th:text="${r.nombreRol}">
+                </option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-primary" type="submit">Buscar</button>
+        </div>
+    </form>
+
+    <table class="table table-sm" th:if="${#lists.size(porRol) > 0}">
+        <thead>
+        <tr>
+            <th>Correo</th>
+            <th>Nombre</th>
+            <th>Rol</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="u : ${porRol}">
+            <td th:text="${u.correoInstitucional}"></td>
+            <td th:text="${u.nombres + ' ' + u.apellidos}"></td>
+            <td th:text="${u.rolAsignado.nombreRol}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Por rango de fechas -->
+    <h4 class="mt-5">Buscar usuarios por rango de fechas (fecha_creacion)</h4>
+    <form class="row g-3 mb-3" method="get" th:action="@{/admin/consultas}">
+        <div class="col-md-4">
+            <label class="form-label">Desde (ISO)</label>
+            <input class="form-control" type="text" name="desde"
+                   placeholder="2025-01-01T00:00:00">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Hasta (ISO)</label>
+            <input class="form-control" type="text" name="hasta"
+                   placeholder="2025-12-31T23:59:59">
+        </div>
+        <div class="col-md-2 align-self-end">
+            <button class="btn btn-primary" type="submit">Buscar</button>
+        </div>
+    </form>
+
+    <table class="table table-sm" th:if="${#lists.size(porFechas) > 0}">
+        <thead>
+        <tr>
+            <th>Correo</th>
+            <th>Nombre</th>
+            <th>Fecha creación</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="u : ${porFechas}">
+            <td th:text="${u.correoInstitucional}"></td>
+            <td th:text="${u.nombres + ' ' + u.apellidos}"></td>
+            <td th:text="${u.fechaCreacion}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Por texto (correo o nombre) -->
+    <h4 class="mt-5">Buscar usuarios por texto (correo o nombre)</h4>
+    <form class="row g-3 mb-3" method="get" th:action="@{/admin/consultas}">
+        <div class="col-md-4">
+            <input class="form-control" type="text" name="texto" placeholder="Ej: @gmail.com o Juan">
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-primary" type="submit">Buscar</button>
+        </div>
+    </form>
+
+    <table class="table table-sm" th:if="${#lists.size(porTexto) > 0}">
+        <thead>
+        <tr>
+            <th>Correo</th>
+            <th>Nombre</th>
+            <th>Rol</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="u : ${porTexto}">
+            <td th:text="${u.correoInstitucional}"></td>
+            <td th:text="${u.nombres + ' ' + u.apellidos}"></td>
+            <td th:text="${u.rolAsignado.nombreRol}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+</section>
+
+</html>
+

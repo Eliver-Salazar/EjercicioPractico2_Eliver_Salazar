@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org"
+      th:with="titulo='Gestión de usuarios',contenido='this :: contenido'"
+      th:replace="~{layout :: {titulo=${titulo},contenido=${contenido}}}">
+
+<section th:fragment="contenido">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Usuarios</h2>
+        <a class="btn btn-primary" th:href="@{/admin/usuarios/nuevo}">Nuevo usuario</a>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre completo</th>
+            <th>Correo</th>
+            <th>Rol</th>
+            <th>Activo</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="u : ${usuarios}">
+            <td th:text="${u.id}">1</td>
+            <td th:text="${u.nombres + ' ' + u.apellidos}">Nombre Apellido</td>
+            <td th:text="${u.correoInstitucional}">correo@demo.com</td>
+            <td th:text="${u.rolAsignado.nombreRol}">ADMIN</td>
+            <td>
+                <span th:text="${u.activo} ? 'Sí' : 'No'">Sí</span>
+            </td>
+            <td>
+                <a class="btn btn-sm btn-info" th:href="@{|/admin/usuarios/detalle/${u.id}|}">Ver</a>
+                <a class="btn btn-sm btn-warning" th:href="@{|/admin/usuarios/editar/${u.id}|}">Editar</a>
+                <a class="btn btn-sm btn-danger" th:href="@{|/admin/usuarios/eliminar/${u.id}|}"
+                   onclick="return confirm('¿Eliminar usuario?');">Eliminar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+</html>
+

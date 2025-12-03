@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org"
+      th:with="titulo='Mi perfil',contenido='this :: contenido'"
+      th:replace="~{layout :: {titulo=${titulo},contenido=${contenido}}}">
+
+<section th:fragment="contenido">
+    <h2>Mi perfil</h2>
+
+    <p><strong>Nombre:</strong> <span th:text="${usuario.nombres + ' ' + usuario.apellidos}"></span></p>
+    <p><strong>Correo:</strong> <span th:text="${usuario.correoInstitucional}"></span></p>
+    <p><strong>Rol:</strong> <span th:text="${usuario.rolAsignado.nombreRol}"></span></p>
+</section>
+
+</html>
+

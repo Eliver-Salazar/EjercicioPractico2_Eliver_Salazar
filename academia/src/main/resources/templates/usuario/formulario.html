@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org"
+      th:with="titulo='Formulario usuario',contenido='this :: contenido'"
+      th:replace="~{layout :: {titulo=${titulo},contenido=${contenido}}}">
+
+<section th:fragment="contenido">
+
+    <h2 th:text="${usuario.id} != null ? 'Editar usuario' : 'Nuevo usuario'">Usuario</h2>
+
+    <form th:action="@{/admin/usuarios/guardar}" th:object="${usuario}" method="post">
+
+        <input type="hidden" th:field="*{id}"/>
+
+        <div class="mb-3">
+            <label class="form-label">Nombres</label>
+            <input type="text" class="form-control" th:field="*{nombres}">
+            <div class="text-danger" th:errors="*{nombres}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Apellidos</label>
+            <input type="text" class="form-control" th:field="*{apellidos}">
+            <div class="text-danger" th:errors="*{apellidos}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Correo institucional</label>
+            <input type="email" class="form-control" th:field="*{correoInstitucional}">
+            <div class="text-danger" th:errors="*{correoInstitucional}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Contraseña</label>
+            <input type="text" class="form-control" th:field="*{contrasenna}">
+            <div class="text-danger" th:errors="*{contrasenna}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Rol asignado</label>
+            <select name="rolId" class="form-select">
+                <option value="">-- Seleccione --</option>
+                <option th:each="r : ${roles}"
+                        th:value="${r.id}"
+                        th:text="${r.nombreRol}"
+                        th:selected="${usuario.rolAsignado != null and usuario.rolAsignado.id == r.id}">
+                </option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Activo</label>
+            <select class="form-select" th:field="*{activo}">
+                <option th:value="true">Sí</option>
+                <option th:value="false">No</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a class="btn btn-secondary" th:href="@{/admin/usuarios}">Volver</a>
+
+    </form>
+
+</section>
+
+</html>
+

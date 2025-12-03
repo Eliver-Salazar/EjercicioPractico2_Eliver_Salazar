@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org"
+      th:with="titulo='Reportes',contenido='this :: contenido'"
+      th:replace="~{layout :: {titulo=${titulo},contenido=${contenido}}}">
+
+<section th:fragment="contenido">
+    <h2>Reportes de usuarios</h2>
+
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card text-bg-success mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Usuarios activos</h5>
+                    <p class="card-text display-6" th:text="${activos}">0</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-bg-secondary mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Usuarios inactivos</h5>
+                    <p class="card-text display-6" th:text="${inactivos}">0</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3>Usuarios recientes</h3>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Correo</th>
+            <th>Nombre</th>
+            <th>Rol</th>
+            <th>Fecha creación</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="u : ${usuariosRecientes}">
+            <td th:text="${u.correoInstitucional}"></td>
+            <td th:text="${u.nombres + ' ' + u.apellidos}"></td>
+            <td th:text="${u.rolAsignado.nombreRol}"></td>
+            <td th:text="${u.fechaCreacion}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+</section>
+
+</html>
+
